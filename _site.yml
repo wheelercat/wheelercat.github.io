@@ -1,0 +1,10 @@
+
+name: "Basic Web Page"
+output_dir: "."
+navbar:
+  title: "Cathryn Wheeler"
+  left: 
+    - text: "Home"
+      href: index.html
+    - text: "bookdown"
+      href: bookdown.html
