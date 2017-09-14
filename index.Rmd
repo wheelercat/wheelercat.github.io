@@ -11,5 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 * Hi I'm Cathryn and welcome to my web page! 
 ```{r, echo=FALSE}
-knitr::include_graphics("./images/Tupac_and_Lisa_Frank.gif")
+knitr::include_graphics("mtn.jpg")
 ```
+
