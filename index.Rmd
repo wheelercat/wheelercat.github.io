@@ -16,7 +16,7 @@ I was born and raised in South Florida until the age of 14, when my mom and I mo
 My favourite things include dogs, travelling, Jeeps, and puns. I have three dogs: Indy, Bodie, and Tucker that I love very much. My favourite time of the year is autumn, when I can drive my Jeep down the Blue Ridge Parkway and see all the changing leaves and my favourite thing to eat is bread. 
 
 ```{r, echo=FALSE}
-knitr::include_graphics("./images/mtn.jpg")
+knitr::include_graphics("./images/15400948_1351899521527123_1890650783356599405_n (1).jpg")
 ```
 
 

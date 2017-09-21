@@ -8,10 +8,3 @@ navbar:
       href: index.html
     - text: "bookdown"
       href: bookdown.html
-output:
-  html_document:
-  theme: yeti
-  highlight: textmat
-  include:
-  after_body: footer.html
-  css: styles.css
