@@ -1,0 +1,213 @@
+---
+title: "Bicycle"
+author: "Samantha Widman, Cathryn Wheeler, Xan Hendrix"
+date: "9/19/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+fig.width=6, fig.height=6, fig.align='center')
+```
+
+
+```{r echo = FALSE, comment = NA, message=FALSE}
+# For data manipulation and tidying
+library(dplyr)
+library(lubridate)
+library(tidyr)
+
+# For mapping
+library(ggmap)
+library(mapproj)
+
+# For data visualizations
+library(ggplot2)
+
+# For modeling and machine learning
+library(caret)
+```
+
+
+## Stations Information
+
+Here we created a map of the stations in Seattle.
+
+```{r  comment = NA, message=FALSE, comment=NA, warning=FALSE}
+station <- read.csv(file = "station.csv", header = TRUE, 
+    stringsAsFactors = FALSE)
+
+trip <- read.csv(file = "trip.csv", header = TRUE, 
+    stringsAsFactors = FALSE)
+
+weather <- read.csv(file = "weather.csv", header = TRUE, 
+    stringsAsFactors = FALSE)
+```
+
+
+
+```{r message=FALSE, warning=FALSE}
+station_locs <- station %>% group_by(station_id) %>% select(1:4, 
+    -2)
+```
+
+  
+```{r message=FALSE, warning=FALSE}
+# Load the correct map
+mymap <- get_map(location = "Seattle", maptype = "roadmap", zoom = 12)
+
+# Plot a single point for each Station ID
+ggmap(mymap) + geom_point(aes(x = long, y = lat), data = station_locs, 
+    alpha = 0.7, color = "darkred", size = 2)
+
+```
+
+```{r}
+mymap2 <- get_map(location = c(lon = -122.31, lat = 47.63), maptype = "roadmap", zoom = 13)
+
+ggmap(mymap2) + geom_point(aes(x = long, y = lat), data = station_locs, 
+    alpha = 0.7, color = "darkred", size = 2)
+```
+
+```{r message=FALSE, comment=NA}
+station$install_date <- mdy(station$install_date)
+
+# How many times were new stations installed?
+station %>% summarise(n_distinct(install_date))
+
+##   n_distinct(install_date)
+## 1                        9
+
+# How many stations were installed on each date?
+station %>% group_by(install_date) %>% summarise(count = n()) %>% 
+    arrange(install_date)
+
+## # A tibble: 9 × 2
+##   install_date count
+##         <date> <int>
+## 1   2014-10-13    50
+## 2   2015-05-22     1
+## 3   2015-06-12     1
+## 4   2015-07-27     1
+## 5   2015-09-15     1
+## 6   2015-10-29     1
+## 7   2016-03-18     1
+## 8   2016-07-03     1
+## 9   2016-08-09     1
+
+```
+
+
+  
+```{r echo=FALSE}
+# The Dock Count
+
+ggplot(data = station, aes(x = current_dockcount,)) + geom_bar()
+
+```
+
+
+```{r echo=FALSE, message=FALSE,warning=FALSE}
+# Change in number of bike docs per station
+
+dock_change <- station %>% group_by(station_id) %>% select(station_id, 
+    long, lat, ends_with("dockcount")) %>% mutate(dock_change = current_dockcount - 
+    install_dockcount)
+
+# Load the correct map
+mymap <- get_map(location = "Seattle", maptype = "roadmap", zoom = 12)
+
+# Plot a single point for each Station ID
+ggmap(mymap) + geom_point(aes(x = long, y = lat,size=factor(dock_change),color=factor(dock_change)), data = dock_change, alpha = 0.8)+scale_size_manual(values=10:1)
+```
+##Curent Station Size
+
+```{r}
+ggmap(mymap) + geom_point(aes(x = long, y = lat, size = install_dockcount), data = station, 
+    alpha = 0.7, color = "darkred")
+```
+
+##Exploring the Trips Dataset
+
+```{r}
+## Observations: 236,065
+## Variables: 12
+## $ trip_id           <int> 431, 432, 433, 434, 435, 436, 437, 438, 439,...
+## $ starttime         <chr> "10/13/2014 10:31", "10/13/2014 10:32", "10/...
+## $ stoptime          <chr> "10/13/2014 10:48", "10/13/2014 10:48", "10/...
+## $ bikeid            <chr> "SEA00298", "SEA00195", "SEA00486", "SEA0033...
+## $ tripduration      <dbl> 985.935, 926.375, 883.831, 865.937, 923.923,...
+## $ from_station_name <chr> "2nd Ave & Spring St", "2nd Ave & Spring St"...
+## $ to_station_name   <chr> "Occidental Park / Occidental Ave S & S Wash...
+## $ from_station_id   <chr> "CBD-06", "CBD-06", "CBD-06", "CBD-06", "CBD...
+## $ to_station_id     <chr> "PS-04", "PS-04", "PS-04", "PS-04", "PS-04",...
+## $ usertype          <chr> "Member", "Member", "Member", "Member", "Mem...
+## $ gender            <chr> "Male", "Male", "Female", "Female", "Male", ...
+## $ birthyear         <int> 1960, 1970, 1988, 1977, 1971, 1974, 1978, 19...
+```
+
+```{r}
+# Make the start and stop dates into POSIXct objects
+trip_2 <- trip %>% mutate(start_dt = mdy_hm(starttime), stop_dt = mdy_hm(stoptime))
+
+# Recode the dates
+trip_2 <- trip_2 %>% mutate(start_date = paste(month(start_dt), 
+    day(start_dt), year(start_dt), sep = "/"))
+trip_2$start_date <- mdy(trip_2$start_date)
+
+trip_2 <- trip_2 %>% mutate(stop_date = paste(month(stop_dt), 
+    day(stop_dt), year(stop_dt), sep = "/"))
+trip_2$stop_date <- mdy(trip_2$stop_date)
+```
+
+```{r}
+trip_2 %>% 
+  group_by(start_date) %>%
+  summarize(N = n()) %>%
+  ggplot(aes(x = start_date, y = N)) + 
+  geom_line() + 
+  labs(x = "Date", y = "Number of trips per day") + 
+  theme_bw()
+```
+
+##Plotting Trips Per Month(By Season)
+
+```{r}
+start_date_ym <- trip_2 %>% mutate(ym = paste(year(start_date), 
+    month(start_date), sep = "/"), Season = ifelse(ym %in% c("2014/10", "2014/11"), "Fall", ifelse(ym %in% c("2014/12", "2015/1", "2015/2"), "Winter", ifelse(ym %in% c("2015/3", "2015/4", "2015/5"), "Spring", "Summer"))))
+```
+
+```{r}
+start_date_ym %>%
+  group_by(ym, Season) %>%
+  summarize(N = n()) %>%
+  ggplot(aes(x = ym, y = N, color = Season)) + geom_point() + geom_line(aes(group = 1)) + labs(x = "Date", y = "Number of trips per month") + theme_bw()
+```
+
+##Average Trip Duration
+
+```{r}
+# Convert Trip Duration from Seconds to Minutes
+Trip_Duration_Month <- start_date_ym %>% mutate(trip_duration_min = tripduration/60) %>% 
+    group_by(ym) %>% select(ym, trip_duration_min, Season) %>% summarise(Avg = mean(trip_duration_min), 
+    sd = sd(trip_duration_min)) %>% mutate(se = sd/sqrt(n()),Season = ifelse(ym %in% c("2014/10", "2014/11"), "Fall", ifelse(ym %in% c("2014/12", "2015/1", "2015/2"), "Winter", ifelse(ym %in% c("2015/3", "2015/4", "2015/5"), "Spring", "Summer"))))
+ggplot(Trip_Duration_Month,aes(x = ym, y = Avg, color = Season)) + geom_point() + geom_line(aes(group = 1)) + labs(x = "Date", y = "Average Trip Duration (In Minutes)") + theme_bw() + geom_errorbar(aes(ymin = Avg - se, ymax = Avg + se))
+```
+
+
+##Number of Trips by Day of Week
+
+```{r}
+start_date_ym$wd <- wday(start_date_ym$start_date, label = TRUE)
+ 
+```
+
+```{r fig.width = 6, fig.height = 6}
+start_date_ym%>%
+  group_by(wd, Season) %>%
+  summarize(N = n()) %>%
+ggplot(aes(x = wd, y = N, color = Season, group = Season)) + geom_point() + geom_line() + labs(x = "Day of the Week", y = "Number of trips") + theme_bw()
+```
+
+
+
