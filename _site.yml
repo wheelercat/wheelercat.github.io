@@ -8,3 +8,5 @@ navbar:
       href: index.html
     - text: "bookdown"
       href: bookdown.html
+    - text: "projects"
+      href: projects.html

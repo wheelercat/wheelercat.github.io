@@ -1,0 +1,12 @@
+---
+title: "projects"
+author: "Cathryn Wheeler"
+date: "10/24/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+* [Bicycle Project](./project/bike_sharing.html)
