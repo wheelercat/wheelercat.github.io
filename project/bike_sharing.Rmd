@@ -1,7 +1,7 @@
 ---
 title: "Bicycle Sharing in Seattle"
 author: "Samantha Widman, Cathryn Wheeler, Xan Hendrix, Lauren Murray"
-date: "9/19/2017"
+date: '`r format(Sys.time(), "%b %d %Y")`'
 output:
   html_document:
     toc: yes
