@@ -328,8 +328,15 @@ So it looks like usage is relatively consistent across seasons, at least as far 
 
 How about time of day? Are people using these around commuting times during the week and later on weekends? 
 
-```{r}
-
+```{r fig.width=9}
+start_date_ym %>%
+  group_by(Hour=hour(start_dt), Season, wd) %>%
+  summarize(N=n()) %>%
+  ggplot(aes(x= Hour,y = N, color = Season, group = Season)) +
+  geom_point() +
+  geom_line() +
+  labs(x="Hour of Day",y="Number of Trips") +
+  facet_wrap(~wd)
 ```
 Wow, looks like regardless of the season, people are commuting to/from work using this service (there’s a spike between 8 and 10 AM and another between 4 and 7 PM Monday through Friday). But the weekends seem to be popular between 10 AM and 10 PM.
 
@@ -340,7 +347,15 @@ I wonder if different types of members (those who have a membership vs. those th
 If I were to guess, I’d think the short-term passes would be ideal for tourists or people looking for a quick weekend trip, whereas members may be more likely to continue using the service year-round. Let’s check out my assumptions by plotting, once again colored by season.
 
 ```{r}
-
+start_date_ym %>%
+  filter(usertype != "") %>%
+  group_by(ym, Season, usertype) %>%
+  summarize(N = n()) %>%
+  ggplot(aes(x = ym, y = N, colour = Season, group = usertype)) +
+  geom_point(aes(shape = usertype), size = 3) +
+  geom_line() +
+  theme_bw() +
+  labs(y = "Total number of trips per month", x = "")
 ```
 
 Surprisingly (to me, at least), different types of users seem to follow similar patterns of usage. Spring and Summer are definitely the most popular times for anyone to ride a bike in the Seattle area.
