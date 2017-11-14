@@ -3,9 +3,9 @@ title: "Bicycle Sharing in Seattle"
 author: "Samantha Widman, Cathryn Wheeler, Xan Hendrix, Lauren Murray"
 date: '`r format(Sys.time(), "%b %d %Y")`'
 output:
-  html_document:
-    toc: yes
   pdf_document:
+    toc: yes
+  html_document:
     toc: yes
 ---
 
@@ -349,7 +349,11 @@ Surprisingly (to me, at least), different types of users seem to follow similar 
 
 While it may seem that the trip duration shouldn’t vary widely by member type, a quick look at Pronto!’s pricing structure may make you reconsider that assumption. You see, while you have to purchase either an annual membership ($85/year), a 24-Hour Pass ($8) or a 3-Day Pass ($16) there is still a cap on the duration of your trip. For members, any ride under 45 minutes is free, but any ride going over 45 minutes will incur a fee of $2 for every additional 30 minutes. For short-term users, any ride under 30 minutes is free, but going over that time limit would cost you an additional $2 for the first 30 minutes and $5 for each additional 30 minutes after that! 
 
-Let’s see if these time limits cause differing behaviors in our users.  
+Let’s see if these time limits cause differing behaviors in our users. 
+```{r}
+trip_duration_min%>%
+```
+
 
 Ok, so our members are pretty good about making sure that they return their bike before they incur extra charges, but the short-term pass holders frequently go over their time limit. I wonder how the cost of a trip varies for members and pass holders. Let’s try to calculate the cost of a trip. 
 
