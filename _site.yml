@@ -9,5 +9,4 @@ navbar:
     - text: "Projects"
       href: projects.html
     - text: "GitHub"
-      href: <!-- Place this tag where you want the button to render. -->
-<a class="github-button" href="https://github.com/wheelercat" aria-label="Follow @wheelercat on GitHub">Follow @wheelercat</a>
+      href: <a class="github-button" href="https://github.com/wheelercat" aria-label="Follow @wheelercat on GitHub">Follow @wheelercat</a>
