@@ -1,12 +1,18 @@
-
-name: "Basic Web Page"
+name: "wheelercat.github.io"
 output_dir: "."
 navbar:
   title: "Cathryn Wheeler"
-  left: 
+  left:
     - text: "Home"
       href: index.html
-    - text: "Projects"
+    - text: "projects"
       href: projects.html
-    - text: "GitHub"
-      href: "https://github.com/wheelercat" 
+    
+  right: 
+    - icon: fa-github fa-lg
+      href: https://github.com/wheelercat/wheelercat.github.io/  
+      
+output:
+  html_document:
+    theme: yeti
+    highlight: textmate      

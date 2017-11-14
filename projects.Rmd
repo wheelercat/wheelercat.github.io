@@ -1,12 +1,12 @@
 ---
-title: "projects"
-author: "Cathryn Wheeler"
-date: '`r format(Sys.time(), "%b %d %Y")`'
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+\
+
 
 * [Bicycle Project](./project/bike_sharing.html)
