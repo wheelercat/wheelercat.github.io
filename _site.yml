@@ -9,4 +9,4 @@ navbar:
     - text: "Projects"
       href: projects.html
     - text: "GitHub"
-      href: <a class="github-button" href="https://github.com/wheelercat" aria-label="Follow @wheelercat on GitHub">Follow @wheelercat</a>
+      href: "https://github.com/wheelercat" 
