@@ -372,7 +372,33 @@ trip_duration_min%>%
 
 Ok, so our members are pretty good about making sure that they return their bike before they incur extra charges, but the short-term pass holders frequently go over their time limit. I wonder how the cost of a trip varies for members and pass holders. Let’s try to calculate the cost of a trip. 
 
+```{r}
+start_date_ym <- start_date_ym %>% mutate(tripduration_min = tripduration/60, cost = ifelse(usertype == "Member" & 
+    tripduration_min <= 45, 0, ifelse(usertype == "Member" & tripduration_min > 
+    45 & tripduration_min <= 75, 2, ifelse(usertype == "Member" & 
+    tripduration_min > 75, (2 + 2 * ceiling((tripduration_min - 75)/30)), 
+    ifelse(usertype == "Short-Term Pass Holder" & tripduration_min <= 
+        30, 0, ifelse(usertype == "Short-Term Pass Holder" & 
+        tripduration_min > 30 & tripduration_min < 60, 2, ifelse(usertype == 
+        "Short-Term Pass Holder" & tripduration_min > 60, (2 + 
+        5 * ceiling((tripduration_min - 60)/30)), NA)))))))
+```
+
 That was a complicated nested if/else statement! Let’s see how much these folks are paying in additional fees! 
+
+```{r echo=FALSE, message=FALSE,warning=FALSE}
+start_date_ym %>%
+  filter(cost > 0 ) %>%
+  ggplot(aes(x = cost, fill = usertype)) +
+  geom_histogram() + 
+  facet_grid(.~ usertype) +
+  scale_fill_manual(values = c("pink","light blue")) +
+  theme_bw() + 
+  theme(axis.text.x=element_text(angle=60, hjust=1)) +
+  guides(fill = FALSE) + 
+  labs(y = "Number of Trips", x = "Additional Fees ($)")
+```
+
 
 Looks like short-term pass holders (who are already paying a higher price per day of biking), are also paying lots of extra fees. This could be because they are unfamiliar with the pricing structure and don’t realize they need to return their bike to a station within 30 minutes without getting charged. It is also possible that short-term users may be tourists who don’t know their way around as easily, and thus can’t find their way to a station within the time limit.
 
