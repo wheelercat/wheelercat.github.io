@@ -654,24 +654,3 @@ So what did we learn from all of this? In the nearly 2 years since Pronto! opene
 
 
 As always, I appreciate any and all feedback from my work and appreciate you taking the time to see what I’ve done. Thanks!
-
-## Conclusions  {-} 
-
-So what did we learn from all of this? In the nearly 2 years since Pronto! opened in Seattle:
-
-* 236,065 bike trips were taken using this service
-* More trips occur in the spring and summer than winter/autumn
-* More trips occur during warm/dry weather
-* People tend to ride downhill more frequently than uphill
-* Pronto! bikes are used for work commutes during the week and more leisurely use on weekends
-* Short-Term Pass Holders are more likely to incur extra charges due to surpassing their time limit
-
-## Suggestions for Pronto!  {-}
-
-* Give users bonuses for bringing bikes back to a station on the top of the hill
-* Hold discounts in fall/winter
-* Find a way to alert short-term users that their time limit will be ending soon, and where the nearest station is to them at that time
-* Consider a 3rd membership option: “Commuter”. This may allow users to take bikes between 7-10 AM and 4-7 PM for free, but operate under a different time limit schedule during other times of day.
-
-
-As always, I appreciate any and all feedback from my work and appreciate you taking the time to see what I’ve done. Thanks!
