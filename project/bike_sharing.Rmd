@@ -655,7 +655,7 @@ So what did we learn from all of this? In the nearly 2 years since Pronto! opene
 
 As always, I appreciate any and all feedback from my work and appreciate you taking the time to see what I’ve done. Thanks!
 
-## Conclusions  {-}
+## Conclusions  {-} 
 
 So what did we learn from all of this? In the nearly 2 years since Pronto! opened in Seattle:
 
